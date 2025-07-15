@@ -50,3 +50,11 @@ def vote(request, question_id):
             choice.votes += 1
             choice.save()
     return HttpResponseRedirect(reverse('detail', args=(question_id,)))
+
+
+def testing(request):
+    template = loader.get_template('polls/testingTemplate.html')
+    context = {
+        'fruits': ['Apple', 'Banana', 'Cherry'],   
+    }
+    return HttpResponse(template.render(context, request))
