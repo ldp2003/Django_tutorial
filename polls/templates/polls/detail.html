@@ -5,20 +5,33 @@
 {% endblock %}
 
 {% block content %}
+<div class="nav-links">
+    <a href="/admin">Admin</a>
+    <a href="{% url 'index' %}">All Questions</a>
+</div>
 <h1>{{question.question_text}}</h1>
+
 <form action="{% url 'vote' question.id %}" method="post">
     {% csrf_token %}
-    <ul>
+    <ul class="choice-list">
         {% for choice in choices %}
-        <li>
-            <input type="radio" name="choice" value="{{ choice.id }}" id="choice{{ choice.id }}">
-            <label for="choice{{ choice.id }}">{{choice.choice_text}} ({{ choice.votes }} votes)</label>
+        <li class="choice-item">
+            <label for="choice{{ choice.id }}">
+                <div class="choice-content">
+                    <input type="radio" name="choice" value="{{ choice.id }}" id="choice{{ choice.id }}">
+                    <span class="choice-text">{{ choice.choice_text }}</span>
+                </div>
+                <span class="vote-count">{{ choice.votes }} votes</span>
+            </label>
         </li>
         {% endfor %}
     </ul>
-    <input type="submit" value="Vote">
+    <input type="submit" value="🗳️ Cast Your Vote" class="submit-btn">
 </form>
-<p><a href="{% url 'index' %}">Back to questions</a></p>
+
+<div class="back-link">
+    <a href="{% url 'index' %}">← Back to Questions</a>
+</div>
 {% endblock %}
 
 <!-- <!DOCTYPE html>

@@ -6,41 +6,54 @@
 
 {% block content %}
 <h1>{{ title }}</h1>
-<p>Admin?: <a href="/admin">Admin</a></p>
-<p>Testing direction: <a href="/endpoint1">endpoint1</a></p>
-<div>
+
+<div class="nav-links">
+    <a href="/admin">Admin</a>
+    <a href="/endpoint1">Endpoint1 (testing)</a>
+</div>
+
+<div class="search-form">
     <form method="get" action="{% url 'index' %}">
-        <input type="text" name="search" placeholder="Tìm kiếm câu hỏi..." value="{{ search_query }}">
+        <input type="text" 
+               name="search" 
+               placeholder="🔍 Tìm kiếm câu hỏi..." 
+               value="{{ search_query }}">
         <button type="submit">Tìm kiếm</button>
         {% if search_query %}
-        <a href="{% url 'index' %}" style="margin-left: 10px;">Xóa bộ lọc</a>
+        <a href="{% url 'index' %}" class="clear-filter">Xóa bộ lọc</a>
         {% endif %}
     </form>
 </div>
 
 {% if search_query %}
-<p><em>Tìm thấy {{ questions|length }} kết quả cho "{{ search_query }}"</em></p>
+<p class="search-result">
+    <em>Tìm thấy {{ questions|length }} kết quả cho "{{ search_query }}"</em>
+</p>
 {% endif %}
 
 <h2>Questions:</h2>
 {% if questions %}
-<ul>
-    {% for question in questions %}
-    <a href="detail/{{question.id}}">
-        <li class="question-item">
-            <div class="question-container">
-                <div class="question-text">{{question.question_text}}</div>
-                <div class="question-date">{{question.pub_date}}</div>
-            </div>
+    <ul class="choice-list">
+        {% for question in questions %}
+        <li class="choice-item">
+            <a href="{% url 'detail' question.id %}" style="text-decoration: none; color: inherit;">
+                <div class="choice-content-index">
+                    <div>
+                        <div class="question-text">{{ question.question_text }}</div>
+                        <div class="question-date">📅 {{ question.pub_date|date:"M d, Y" }}</div>
+                    </div>
+                    <span class="vote-count">View →</span>
+                </div>
+            </a>
         </li>
-    </a>
-    {% endfor %}
-</ul>
+        {% endfor %}
+    </ul>
 {% else %}
-<p>Không tìm thấy câu hỏi nào{% if search_query %} cho "{{ search_query }}"{% endif %}.</p>
+    <div class="no-results">
+        <h3>Không tìm thấy câu hỏi nào{% if search_query %} cho "{{ search_query }}"{% endif %}.</h3>
+        <p>Hãy thử tìm kiếm với từ khóa khác!</p>
+    </div>
 {% endif %}
-
-
 
 {% endblock %}
 

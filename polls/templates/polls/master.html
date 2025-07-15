@@ -10,12 +10,14 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    <div class="container">
     {% include 'polls/header.html' %}
 
     {% block content %}
     {% endblock %}
 
     {% include 'polls/footer.html' with what="page" %}
+    </div>
 </body>
 
 </html>
