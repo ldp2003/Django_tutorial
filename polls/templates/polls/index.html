@@ -1,14 +1,29 @@
 {% extends 'polls/master.html' %}
 
 {% block title %}
-Index page with all question
+{{title}}
 {% endblock %}
 
 {% block content %}
 <h1>{{ title }}</h1>
 <p>Admin?: <a href="/admin">Admin</a></p>
 <p>Testing direction: <a href="/endpoint1">endpoint1</a></p>
+<div>
+    <form method="get" action="{% url 'index' %}">
+        <input type="text" name="search" placeholder="Tìm kiếm câu hỏi..." value="{{ search_query }}">
+        <button type="submit">Tìm kiếm</button>
+        {% if search_query %}
+        <a href="{% url 'index' %}" style="margin-left: 10px;">Xóa bộ lọc</a>
+        {% endif %}
+    </form>
+</div>
+
+{% if search_query %}
+<p><em>Tìm thấy {{ questions|length }} kết quả cho "{{ search_query }}"</em></p>
+{% endif %}
+
 <h2>Questions:</h2>
+{% if questions %}
 <ul>
     {% for question in questions %}
     <a href="detail/{{question.id}}">
@@ -21,6 +36,9 @@ Index page with all question
     </a>
     {% endfor %}
 </ul>
+{% else %}
+<p>Không tìm thấy câu hỏi nào{% if search_query %} cho "{{ search_query }}"{% endif %}.</p>
+{% endif %}
 
 
 

@@ -9,10 +9,19 @@ def index(request):
     #     'title': 'My Polls App',
     #     'questions': ['Question 1', 'Question 2', 'Question 3']
     # }
-    questions = Question.objects.all().values()
-    template = loader.get_template('polls/index.html')
+
+    #thêm searching
+    search_query = request.GET.get('search')
+    if search_query:
+        questions = Question.objects.filter(question_text__icontains=search_query).values()
+        title = f"Search results for '{search_query}'"
+    else:
+        questions = Question.objects.all().values().order_by('-pub_date')
+        title = 'My Polls App'
+
+    #template = loader.get_template('polls/index.html')
     context = {
-        'title': 'My Polls App',
+        'title': title,
         'questions': questions
     }
     return render(request, 'polls/index.html', context)
@@ -31,7 +40,7 @@ def detail(request, question_id):
     return render(request, 'polls/detail.html',  context)
 
 def endpoint1(request):
-    return HttpResponse("Đây là kết quả của endpoint 1.")
+    return HttpResponse("endpoint 1.")
 
 def vote(request, question_id):
     if request.method == 'POST':
