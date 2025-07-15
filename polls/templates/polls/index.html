@@ -1,0 +1,54 @@
+{% extends 'polls/master.html' %}
+
+{% block title %}
+Index page with all question
+{% endblock %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<p>Admin?: <a href="/admin">Admin</a></p>
+<p>Testing direction: <a href="/endpoint1">endpoint1</a></p>
+<h2>Questions:</h2>
+<ul>
+    {% for question in questions %}
+    <a href="detail/{{question.id}}">
+        <li class="question-item">
+            <div class="question-container">
+                <div class="question-text">{{question.question_text}}</div>
+                <div class="question-date">{{question.pub_date}}</div>
+            </div>
+        </li>
+    </a>
+    {% endfor %}
+</ul>
+
+
+
+{% endblock %}
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    <p>Admin?: <a href="/admin">Admin</a></p>
+    <p>Testing direction: <a href="/endpoint1">endpoint1</a></p>
+    <h2>Questions:</h2>
+    <ul>
+    {% for question in questions %}
+        <li class="question-item"><a href="detail/{{question.id}}">
+            <div class="question-container">
+                <div class="question-text">{{question.question_text}}</div>
+                <div class="question-date">{{question.pub_date}}</div>
+            </div>
+        </a></li>
+    {% endfor %}
+    </ul>
+</body>
+
+
+</html> -->

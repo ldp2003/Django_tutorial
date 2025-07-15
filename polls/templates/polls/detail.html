@@ -1,0 +1,39 @@
+{% extends 'polls/master.html' %}
+
+{% block title %}
+{{question.question_text}}
+{% endblock %}
+
+{% block content %}
+<h1>{{question.question_text}}</h1>
+<form action="{% url 'vote' question.id %}" method="post">
+    {% csrf_token %}
+    <ul>
+        {% for choice in choices %}
+        <li>
+            <input type="radio" name="choice" value="{{ choice.id }}" id="choice{{ choice.id }}">
+            <label for="choice{{ choice.id }}">{{choice.choice_text}} ({{ choice.votes }} votes)</label>
+        </li>
+        {% endfor %}
+    </ul>
+    <input type="submit" value="Vote">
+</form>
+<p><a href="{% url 'index' %}">Back to questions</a></p>
+{% endblock %}
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{question.question_text}}</h1>
+    <ul>
+        {% for choice in choices %}
+        <li>{{choice.choice_text}}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html> -->
